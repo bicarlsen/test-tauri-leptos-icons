@@ -103,6 +103,9 @@ pub fn App() -> impl IntoView {
                 </label>
             </div>
             <div>
+                <DynamicIconTemplate />
+            </div>
+            <div>
                 <div>
                     {move || match with_icon.get() {
                         DisplayIconKind::None => "",
@@ -148,4 +151,18 @@ fn MyIcon() -> impl IntoView {
         DisplayIconKind::Template => template! { <IconTemplate icon=icondata::AiAlignCenterOutlined /> },
         DisplayIconKind::StaticTemplate => template! { <StaticIconTemplate icon=icondata::AiAlignCenterOutlined /> }
     )
+}
+
+#[component]
+fn DynamicIconTemplate() -> impl IntoView {
+    let (icon, set_icon) = signal(icondata::AiAlignCenterOutlined);
+
+    template! {
+        <div
+            on:click=move |e| set_icon(icondata::AiAccountBookFilled)
+        >
+            "Click me"
+            <IconTemplate icon=icon />
+        </div>
+    }
 }
